@@ -16,12 +16,9 @@ import java.net.URL;
 import java.util.UUID;
 
 public final class ItemImage extends JavaPlugin {
-    public ItemImage plugin;
-
     @Override
     public void onEnable() {
-        plugin=this;
-
+        new onEvents(this);
     }
 
     @Override
@@ -61,13 +58,16 @@ public final class ItemImage extends JavaPlugin {
         List<Component> lore = new ArrayList<>();
         BufferedImage image;
 
-        try {
-            String baseUrl = "https://mcasset.cloud/1.20.1/assets/minecraft/textures/";
+        if (item.getType().isAir()) return lore;
+
+        try { //https://assets.mcasset.cloud/
+            String baseUrl = "https://assets.mcasset.cloud/1.20.1/assets/minecraft/textures/";
             String path = item.getType().isBlock() ? "block/" : "item/";
             String translationKey = item.getType().getItemTranslationKey()
                     .replace("item.minecraft.", "")
                     .replace("block.minecraft.", "");
             URL url = new URL(baseUrl + path + translationKey + ".png");
+            System.out.println(url);
 
             image = ImageIO.read(url);
 
