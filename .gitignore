@@ -5,4 +5,4 @@
 /gradle.properties
 /gradlew
 /gradlew.bat
-settings.gradle
+settings.gradle.kts
