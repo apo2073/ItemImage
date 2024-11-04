@@ -25,7 +25,6 @@ afterEvaluate {
         }
     }
 }
-
 repositories {
     mavenCentral()
     maven {
@@ -40,15 +39,30 @@ repositories {
         name = "jitpack"
         url = uri("https://jitpack.io")
     }
-    maven("https://repo.skriptlang.org/releases") {
-        name="Skript"
-    }
 }
-
-dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT")
-    implementation("com.github.apo2073:ApoLib:1.0.4")
-    implementation("com.github.SkriptLang:Skript:2.9.3")
+subprojects {
+    apply(plugin = "java")
+    apply(plugin = "maven-publish")
+    apply(plugin = "org.jetbrains.kotlin.jvm")
+    apply(plugin = "com.github.johnrengelman.shadow")
+    repositories {
+        mavenCentral()
+        maven {
+            name = "papermc-repo"
+            url = uri("https://repo.papermc.io/repository/maven-public/")
+        }
+        maven {
+            name = "sonatype"
+            url = uri("https://oss.sonatype.org/content/groups/public/")
+        }
+        maven {
+            name = "jitpack"
+            url = uri("https://jitpack.io")
+        }
+    }
+    dependencies {
+        implementation("com.github.apo2073:ApoLib:1.0.4")
+    }
 }
 
 val targetJavaVersion = 17

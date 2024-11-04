@@ -1,6 +1,8 @@
-package kr.apo2073.itemImage.utils;
+package kr.apo2073.iimAPI.utils;
 
-import kr.apo2073.itemImage.ex.NoItem;
+import kr.apo2073.iimAPI.ex.NoItem;
+import kr.apo2073.iimAPI.ex.NoPlayer;
+import kr.apo2073.iimAPI.ex.NoURL;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -8,7 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.eclipse.sisu.Description;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -29,11 +30,9 @@ public class Iim {
     public Iim(ItemStack item) {
         this.item = item;
     }
-
     public Iim(Player player) {
         this.player = player;
     }
-
     public Iim(String url) {
         this.url = url;
     }
@@ -45,26 +44,27 @@ public class Iim {
         item.setItemMeta(meta);
         return item;
     }
-
     public void setItem(ItemStack item) {
         this.item = item;
     }
 
     public Player getPlayer() {
+        if (player==null) throw new NoPlayer();
         return player;
     }
-
     public void setPlayer(Player player) {
         this.player = player;
     }
 
     public String getUrl() {
+        if (url==null) throw new NoURL();
         return url;
     }
-
     public void setUrl(String url) {
         this.url = url;
     }
+
+    public static int getMaxPixelSize() {return MAX_PIXEL_SIZE;}
 
     public List<Component> getImage() {
         if (this.player != null) {
@@ -98,6 +98,7 @@ public class Iim {
 
     private List<Component> getPlayerImageLore(UUID uuid) {
         try {
+            if (uuid==null) throw new NoPlayer();
             URL url = new URL("https://api.mineatar.io/face/" + uuid + "?scale=1&format=png");
             BufferedImage image = ImageIO.read(url);
             return imageGenerator(image);
@@ -108,6 +109,7 @@ public class Iim {
     }
 
     private List<Component> getItemImage(ItemStack item) {
+        if (item==null) throw new NoItem();
         if (item.getType().isAir()) return new ArrayList<>();
 
         if (item.getItemMeta() instanceof SkullMeta) {
@@ -139,6 +141,7 @@ public class Iim {
 
     private List<Component> getImageFromURL(String url) {
         try {
+            if (url==null) throw new NoURL();
             URL urls = new URL(url);
             BufferedImage image = ImageIO.read(urls);
 

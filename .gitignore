@@ -1,4 +1,5 @@
 /.idea/
 /.gradle/
 /build/
-/gradle/
+Iim-API/build
+IIm-Bukkit/build
